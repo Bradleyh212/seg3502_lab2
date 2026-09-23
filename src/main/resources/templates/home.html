@@ -42,5 +42,52 @@
         </table>
     </form>
 </div>
+<div>
+    <h2>Calculator</h2>
+    <div th:switch="${calculationError}">
+        <p th:case="'CalculatorFormatError'">
+            Both calculator values must be numbers
+        </p>
+        <p th:case="'CalculatorOperationError'">
+         `   Choose a calculator operation
+        </p>
+        <p th:case="'DivisionByZeroError'">
+            Cannot divide by zero
+        </p>
+    </div>
+    <form th:action="@{/calculate}" method="get">
+        <table>
+            <tr>
+                <td><label for="firstNumber">First number:</label></td>
+                <td><input name="firstNumber"
+                           id="firstNumber"
+                           th:name="firstNumber" th:value="${firstNumber}"></td>
+            </tr>
+            <tr>
+                <td><label for="secondNumber">Second number:</label></td>
+                <td><input name="secondNumber"
+                           id="secondNumber"
+                           th:name="secondNumber" th:value="${secondNumber}"></td>
+            </tr>
+            <tr>
+                <td><label for="calculatorOperation">Operation:</label></td>
+                <td>
+                    <select name="calculatorOperation" id="calculatorOperation">
+                        <option value="add">+</option>
+                        <option value="subtract">-</option>
+                        <option value="multiply">*</option>
+                        <option value="divide">/</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><button type="submit">Calculate</button></td>
+                <td><strong th:if="${calculatorResult != ''}">
+                    Result: <span th:text="${calculatorResult}"></span>
+                </strong></td>
+            </tr>
+        </table>
+    </form>
+</div>
 </body>
 </html>

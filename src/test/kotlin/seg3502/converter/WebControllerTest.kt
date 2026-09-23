@@ -31,4 +31,33 @@ class WebControllerTest {
             .andExpect(MockMvcResultMatchers.model().attribute("fahrenheit", "32.00"))
             .andExpect(MockMvcResultMatchers.view().name("home"))
     }
+
+    @Test
+    fun calculator_addition() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/calculate")
+                .param("firstNumber", "12")
+                .param("secondNumber", "3")
+                .param("calculatorOperation", "add")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.model().attribute("calculatorResult", "15.00"))
+            .andExpect(MockMvcResultMatchers.view().name("home"))
+    }
+
+    @Test
+    fun calculator_division_by_zero() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/calculate")
+                .param("firstNumber", "12")
+                .param("secondNumber", "0")
+                .param("calculatorOperation", "divide")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(
+                MockMvcResultMatchers.model()
+                    .attribute("calculationError", "DivisionByZeroError")
+            )
+            .andExpect(MockMvcResultMatchers.view().name("home"))
+    }
 }

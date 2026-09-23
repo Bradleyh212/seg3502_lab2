@@ -14,6 +14,10 @@ class WebController {
         model.addAttribute("error", "")
         model.addAttribute("celsius", "")
         model.addAttribute("fahrenheit", "")
+        model.addAttribute("calculationError", "")
+        model.addAttribute("firstNumber", "")
+        model.addAttribute("secondNumber", "")
+        model.addAttribute("calculatorResult", "")
     }
 
     @RequestMapping("/")
@@ -59,6 +63,43 @@ class WebController {
                 model.addAttribute("fahrenheit", fahrenheit)
             }
         }
+        return "home"
+    }
+
+    @GetMapping(value = ["/calculate"])
+    fun calculate(
+        @RequestParam(value = "firstNumber", required = false) firstNumber: String,
+        @RequestParam(value = "secondNumber", required = false) secondNumber: String,
+        @RequestParam(value = "calculatorOperation", required = false) calculatorOperation: String,
+        model: Model
+    ): String {
+        model.addAttribute("firstNumber", firstNumber)
+        model.addAttribute("secondNumber", secondNumber)
+
+        try {
+            val firstValue = firstNumber.toDouble()
+            val secondValue = secondNumber.toDouble()
+            val result = when (calculatorOperation) {
+                "add" -> firstValue + secondValue
+                "subtract" -> firstValue - secondValue
+                "multiply" -> firstValue * secondValue
+                "divide" -> {
+                    if (secondValue == 0.0) {
+                        model.addAttribute("calculationError", "DivisionByZeroError")
+                        return "home"
+                    }
+                    firstValue / secondValue
+                }
+                else -> {
+                    model.addAttribute("calculationError", "CalculatorOperationError")
+                    return "home"
+                }
+            }
+            model.addAttribute("calculatorResult", String.format("%.2f", result))
+        } catch (exp: NumberFormatException) {
+            model.addAttribute("calculationError", "CalculatorFormatError")
+        }
+
         return "home"
     }
 }
