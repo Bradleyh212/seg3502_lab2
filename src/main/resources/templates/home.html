@@ -6,88 +6,182 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-<div>
+
+<div class="section">
     <h1>Temperature Converter</h1>
+
     <div th:switch="${error}">
         <p th:case="'FahrenheitFormatError'">
             Wrong value provided for Fahrenheit - must be a number
         </p>
+
         <p th:case="'CelsiusFormatError'">
             Wrong value provided for Celsius - must be a number
         </p>
+
         <p th:case="'OperationFormatError'">
             Wrong operation
         </p>
     </div>
+
     <form th:action="@{/convert}" method="get">
         <table>
             <tr>
-                <td><label for="celsius">Celsius:</label></td>
-                <td><input name="celsius"
-                           id="celsius"
-                           th:name="celsius" th:value="${celsius}"></td>
+                <td>
+                    <label for="celsius">Celsius:</label>
+                </td>
+
+                <td>
+                    <input
+                            name="celsius"
+                            id="celsius"
+                            th:name="celsius"
+                            th:value="${celsius}">
+                </td>
             </tr>
+
             <tr>
-                <td><label for="fahrenheit">Fahrenheit:</label></td>
-                <td><input name="fahrenheit"
-                           id="fahrenheit"
-                           th:name="fahrenheit" th:value="${fahrenheit}"></td>
+                <td>
+                    <label for="fahrenheit">Fahrenheit:</label>
+                </td>
+
+                <td>
+                    <input
+                            name="fahrenheit"
+                            id="fahrenheit"
+                            th:name="fahrenheit"
+                            th:value="${fahrenheit}">
+                </td>
             </tr>
+
             <tr>
-                <td><button type="submit" th:name="operation" th:value="CtoF">
-                    Celsius to Fahrenheit</button></td>
-                <td><button type="submit" th:name="operation" th:value="FtoC">
-                    Fahrenheit to Celsius</button></td>
+                <td>
+                    <button
+                            type="submit"
+                            th:name="operation"
+                            th:value="CtoF">
+                        Celsius to Fahrenheit
+                    </button>
+                </td>
+
+                <td>
+                    <button
+                            type="submit"
+                            th:name="operation"
+                            th:value="FtoC">
+                        Fahrenheit to Celsius
+                    </button>
+                </td>
             </tr>
         </table>
     </form>
 </div>
-<div>
+
+
+<div class="section calculator">
     <h2>Calculator</h2>
+
     <div th:switch="${calculationError}">
         <p th:case="'CalculatorFormatError'">
             Both calculator values must be numbers
         </p>
+
         <p th:case="'CalculatorOperationError'">
-         `   Choose a calculator operation
+            Choose a calculator operation
         </p>
+
         <p th:case="'DivisionByZeroError'">
             Cannot divide by zero
         </p>
     </div>
+
     <form th:action="@{/calculate}" method="get">
         <table>
             <tr>
-                <td><label for="firstNumber">First number:</label></td>
-                <td><input name="firstNumber"
-                           id="firstNumber"
-                           th:name="firstNumber" th:value="${firstNumber}"></td>
-            </tr>
-            <tr>
-                <td><label for="secondNumber">Second number:</label></td>
-                <td><input name="secondNumber"
-                           id="secondNumber"
-                           th:name="secondNumber" th:value="${secondNumber}"></td>
-            </tr>
-            <tr>
-                <td><label for="calculatorOperation">Operation:</label></td>
                 <td>
-                    <select name="calculatorOperation" id="calculatorOperation">
-                        <option value="add">+</option>
-                        <option value="subtract">-</option>
-                        <option value="multiply">*</option>
-                        <option value="divide">/</option>
+                    <label for="firstNumber">First number:</label>
+                </td>
+
+                <td>
+                    <input
+                            name="firstNumber"
+                            id="firstNumber"
+                            th:name="firstNumber"
+                            th:value="${firstNumber}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="secondNumber">Second number:</label>
+                </td>
+
+                <td>
+                    <input
+                            name="secondNumber"
+                            id="secondNumber"
+                            th:name="secondNumber"
+                            th:value="${secondNumber}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="calculatorOperation">Operation:</label>
+                </td>
+
+                <td>
+                    <select
+                            name="calculatorOperation"
+                            id="calculatorOperation">
+
+                        <option
+                                value="add"
+                                th:selected="${calculatorOperation == 'add'}">
+                            +
+                        </option>
+
+                        <option
+                                value="subtract"
+                                th:selected="${calculatorOperation == 'subtract'}">
+                            -
+                        </option>
+
+                        <option
+                                value="multiply"
+                                th:selected="${calculatorOperation == 'multiply'}">
+                            *
+                        </option>
+
+                        <option
+                                value="divide"
+                                th:selected="${calculatorOperation == 'divide'}">
+                            /
+                        </option>
+
                     </select>
                 </td>
             </tr>
+
             <tr>
-                <td><button type="submit">Calculate</button></td>
-                <td><strong th:if="${calculatorResult != ''}">
-                    Result: <span th:text="${calculatorResult}"></span>
-                </strong></td>
+                <td colspan="2" class="button-cell">
+                    <button type="submit">
+                        Calculate
+                    </button>
+                </td>
+            </tr>
+
+            <tr th:if="${calculatorResult != ''}">
+                <td colspan="2" class="result-cell">
+                    <strong>
+                        Result:
+                        <span th:text="${calculatorResult}"></span>
+                    </strong>
+                </td>
             </tr>
         </table>
     </form>
 </div>
+
 </body>
 </html>

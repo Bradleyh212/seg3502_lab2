@@ -18,6 +18,7 @@ class WebController {
         model.addAttribute("firstNumber", "")
         model.addAttribute("secondNumber", "")
         model.addAttribute("calculatorResult", "")
+        model.addAttribute("calculatorOperation", "")
     }
 
     @RequestMapping("/")
@@ -75,6 +76,7 @@ class WebController {
     ): String {
         model.addAttribute("firstNumber", firstNumber)
         model.addAttribute("secondNumber", secondNumber)
+        model.addAttribute("calculatorOperation", calculatorOperation)
 
         try {
             val firstValue = firstNumber.toDouble()
